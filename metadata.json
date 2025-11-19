@@ -1,0 +1,8 @@
+{
+  "name": "BovMonitorLite_Oficial",
+  "description": "Plataforma completa de gestão para pecuária de corte e leite, integrando manejo, sanidade, financeiro e inteligência artificial para tomada de decisão.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
