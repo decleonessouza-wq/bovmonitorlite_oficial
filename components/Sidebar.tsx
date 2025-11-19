@@ -13,7 +13,11 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { UserRole } from '../types';
 
-export const Sidebar: React.FC = () => {
+interface SidebarProps {
+  isOpen: boolean;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   const location = useLocation();
   const { logout, user, hasPermission } = useAuth();
   const navigate = useNavigate();
@@ -76,20 +80,28 @@ export const Sidebar: React.FC = () => {
   const visibleItems = navItems.filter(item => hasPermission(item.allowedRoles));
 
   return (
-    <div className="h-screen w-64 bg-slate-950 border-r border-slate-800 flex flex-col fixed left-0 top-0 z-20 hidden md:flex shadow-2xl shadow-black">
+    <div
+      className={`
+        h-screen w-64 bg-slate-950 border-r border-slate-800 flex flex-col
+        fixed left-0 top-0 z-30 shadow-2xl shadow-black
+        transform transition-transform duration-300
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:translate-x-0
+      `}
+    >
       {/* Logo Section - Modernized & Dark */}
       <div className="h-32 flex items-center justify-center px-6 py-6 border-b border-slate-800/50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-slate-950 relative overflow-hidden">
         {/* Ambient Glow Effect */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-emerald-500/10 blur-[50px] rounded-full pointer-events-none"></div>
         
         <div className="relative z-10 w-full group">
-            <div className="bg-slate-900/50 backdrop-blur-sm p-4 rounded-2xl border border-slate-800 group-hover:border-emerald-500/30 shadow-lg shadow-black/20 transition-all duration-500 flex justify-center items-center">
-              <img 
-                src="https://i.postimg.cc/httGw5Qt/LOGO_BOVMONITOR_oficial.png" 
-                alt="BovMonitor" 
-                className="max-h-12 w-auto object-contain drop-shadow-[0_0_8px_rgba(16,185,129,0.3)] filter brightness-110 contrast-125"
-              />
-            </div>
+          <div className="bg-slate-900/50 backdrop-blur-sm p-4 rounded-2xl border border-slate-800 group-hover:border-emerald-500/30 shadow-lg shadow-black/20 transition-all duration-500 flex justify-center items-center">
+            <img 
+              src="https://i.postimg.cc/httGw5Qt/LOGO_BOVMONITOR_oficial.png" 
+              alt="BovMonitor" 
+              className="max-h-12 w-auto object-contain drop-shadow-[0_0_8px_rgba(16,185,129,0.3)] filter brightness-110 contrast-125"
+            />
+          </div>
         </div>
       </div>
 
@@ -125,24 +137,24 @@ export const Sidebar: React.FC = () => {
       {/* Footer Actions */}
       <div className="p-4 border-t border-slate-800 bg-slate-950">
         <div className="bg-slate-900/50 rounded-xl p-1">
-            {hasPermission(['owner']) && (
-              <Link 
-                to="/settings"
-                className={`flex items-center gap-3 px-4 py-3 w-full rounded-lg transition-all text-sm ${
-                  isActive('/settings') ? 'text-white bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                }`}
-              >
-                <Settings className="w-4 h-4" />
-                <span>Configurações</span>
-              </Link>
-            )}
-            <button 
-              onClick={handleLogout}
-              className="flex items-center gap-3 px-4 py-3 w-full text-red-400 hover:text-red-300 hover:bg-red-900/10 rounded-lg transition-all mt-1 text-sm"
+          {hasPermission(['owner']) && (
+            <Link 
+              to="/settings"
+              className={`flex items-center gap-3 px-4 py-3 w-full rounded-lg transition-all text-sm ${
+                isActive('/settings') ? 'text-white bg-slate-800' : 'text-slate-400 hover:text-white hover:bg-slate-800'
+              }`}
             >
-              <LogOut className="w-4 h-4" />
-              <span>Sair</span>
-            </button>
+              <Settings className="w-4 h-4" />
+              <span>Configurações</span>
+            </Link>
+          )}
+          <button 
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-4 py-3 w-full text-red-400 hover:text-red-300 hover:bg-red-900/10 rounded-lg transition-all mt-1 text-sm"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Sair</span>
+          </button>
         </div>
       </div>
     </div>

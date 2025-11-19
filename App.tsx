@@ -70,12 +70,16 @@ const Header: React.FC<{ toggleSidebar: () => void }> = ({ toggleSidebar }) => {
         
         {/* Nome do App em Destaque no Header */}
         <div className="flex items-center gap-1 select-none">
-          <span className="text-lg md:text-xl font-bold text-white tracking-tight">BovMonitor<span className="text-emerald-500 font-extrabold">Lite</span></span>
-          <span className="hidden sm:inline-block text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">v1.0</span>
+          <span className="text-lg md:text-xl font-bold text-white tracking-tight">
+            BovMonitor<span className="text-emerald-500 font-extrabold">Lite</span>
+          </span>
+          <span className="hidden sm:inline-block text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">
+            v1.0
+          </span>
         </div>
       </div>
       
-      <div className="flex-1 md:flex-none"></div>
+      <div className="flex-1 md:flex-none" />
 
       <div className="flex items-center gap-4 relative">
         {/* Bell Button */}
@@ -148,7 +152,9 @@ const Header: React.FC<{ toggleSidebar: () => void }> = ({ toggleSidebar }) => {
               </div>
               
               <div className="p-3 bg-slate-950 border-t border-slate-800 text-center">
-                <button className="text-xs text-slate-400 hover:text-white transition-colors">Ver histórico completo</button>
+                <button className="text-xs text-slate-400 hover:text-white transition-colors">
+                  Ver histórico completo
+                </button>
               </div>
             </div>
           </>
@@ -162,7 +168,9 @@ const Header: React.FC<{ toggleSidebar: () => void }> = ({ toggleSidebar }) => {
                 user?.role === 'owner' ? 'bg-emerald-500' : 
                 user?.role === 'manager' ? 'bg-blue-500' : 'bg-amber-500'
               }`}></span>
-              <p className="text-xs text-slate-500 capitalize">{user?.role === 'owner' ? 'Dono' : user?.role === 'manager' ? 'Gerente' : 'Colaborador'}</p>
+              <p className="text-xs text-slate-500 capitalize">
+                {user?.role === 'owner' ? 'Dono' : user?.role === 'manager' ? 'Gerente' : 'Colaborador'}
+              </p>
             </div>
           </div>
           <div className="w-10 h-10 bg-gradient-to-tr from-emerald-600 to-emerald-400 rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-emerald-500/20 border border-emerald-500/30">
@@ -188,7 +196,9 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
       {/* Global Background Gradient */}
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-950/30 via-slate-950 to-black z-0 pointer-events-none" />
 
-      <Sidebar />
+      {/* Sidebar com controle de abertura no mobile */}
+      <Sidebar isOpen={sidebarOpen} />
+
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div 
@@ -196,6 +206,7 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
           onClick={() => setSidebarOpen(false)}
         />
       )}
+
       <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
       
       <main className="pt-24 px-4 md:pl-72 md:pr-8 max-w-7xl mx-auto w-full flex-1 flex flex-col relative z-1">
@@ -206,7 +217,10 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
         {/* Footer */}
         <footer className="mt-12 py-8 border-t border-slate-800/50 flex flex-col items-center justify-center gap-2 text-center">
           <p className="text-slate-500 text-xs font-medium tracking-wide">
-            @2025 BovMonitor<span className="text-emerald-500">Lite</span> - By <span className="text-slate-300 font-semibold hover:text-emerald-400 transition-colors cursor-default">Decleones Andrade</span>
+            @2025 BovMonitor<span className="text-emerald-500">Lite</span> - By{' '}
+            <span className="text-slate-300 font-semibold hover:text-emerald-400 transition-colors cursor-default">
+              Decleones Andrade
+            </span>
           </p>
           <p className="text-[10px] text-slate-600">
             Todos os direitos reservados. Tecnologia para o campo.
@@ -241,64 +255,85 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       
-      <Route path="/" element={
-        <ProtectedLayout>
-          <ProtectedRoute roles={['owner', 'manager', 'collaborator']}>
-            <Dashboard />
-          </ProtectedRoute>
-        </ProtectedLayout>
-      } />
+      <Route
+        path="/"
+        element={
+          <ProtectedLayout>
+            <ProtectedRoute roles={['owner', 'manager', 'collaborator']}>
+              <Dashboard />
+            </ProtectedRoute>
+          </ProtectedLayout>
+        }
+      />
       
-      <Route path="/animals" element={
-        <ProtectedLayout>
-          <ProtectedRoute roles={['owner', 'manager', 'collaborator']}>
-            <AnimalManager />
-          </ProtectedRoute>
-        </ProtectedLayout>
-      } />
+      <Route
+        path="/animals"
+        element={
+          <ProtectedLayout>
+            <ProtectedRoute roles={['owner', 'manager', 'collaborator']}>
+              <AnimalManager />
+            </ProtectedRoute>
+          </ProtectedLayout>
+        }
+      />
       
-      <Route path="/health" element={
-        <ProtectedLayout>
-           <ProtectedRoute roles={['owner', 'manager', 'collaborator']}>
-            <Health />
-          </ProtectedRoute>
-        </ProtectedLayout>
-      } />
+      <Route
+        path="/health"
+        element={
+          <ProtectedLayout>
+            <ProtectedRoute roles={['owner', 'manager', 'collaborator']}>
+              <Health />
+            </ProtectedRoute>
+          </ProtectedLayout>
+        }
+      />
       
-      <Route path="/pasture" element={
-        <ProtectedLayout>
-           <ProtectedRoute roles={['owner', 'manager', 'collaborator']}>
-            <PastureManagement />
-          </ProtectedRoute>
-        </ProtectedLayout>
-      } />
+      <Route
+        path="/pasture"
+        element={
+          <ProtectedLayout>
+            <ProtectedRoute roles={['owner', 'manager', 'collaborator']}>
+              <PastureManagement />
+            </ProtectedRoute>
+          </ProtectedLayout>
+        }
+      />
       
-      <Route path="/reproduction" element={
-        <ProtectedLayout>
-          <ProtectedRoute roles={['owner', 'manager']}>
-            <Reproduction />
-          </ProtectedRoute>
-        </ProtectedLayout>
-      } />
+      <Route
+        path="/reproduction"
+        element={
+          <ProtectedLayout>
+            <ProtectedRoute roles={['owner', 'manager']}>
+              <Reproduction />
+            </ProtectedRoute>
+          </ProtectedLayout>
+        }
+      />
       
-      <Route path="/finance" element={
-        <ProtectedLayout>
-          <ProtectedRoute roles={['owner', 'manager']}>
-            <Finance />
-          </ProtectedRoute>
-        </ProtectedLayout>
-      } />
+      <Route
+        path="/finance"
+        element={
+          <ProtectedLayout>
+            <ProtectedRoute roles={['owner', 'manager']}>
+              <Finance />
+            </ProtectedRoute>
+          </ProtectedLayout>
+        }
+      />
       
-      <Route path="/settings" element={
-        <ProtectedLayout>
-          <ProtectedRoute roles={['owner']}>
-            <Settings />
-          </ProtectedRoute>
-        </ProtectedLayout>
-      } />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedLayout>
+            <ProtectedRoute roles={['owner']}>
+              <Settings />
+            </ProtectedRoute>
+          </ProtectedLayout>
+        }
+      />
     </Routes>
   );
-}
+};
 
 const App: React.FC = () => {
   return (
